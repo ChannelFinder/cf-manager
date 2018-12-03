@@ -21,8 +21,8 @@ import javax.xml.bind.annotation.XmlType;
  *
  * @author Ralph Lange {@literal <ralph.lange@gmx.de>}
  */
-@XmlRootElement(name="tag")
-@XmlType (propOrder={"name","owner","channels"})
+@XmlRootElement(name = "tag")
+@XmlType(propOrder = { "name", "owner", "channels" })
 public class XmlTag {
     private String name = null;
     private String owner = null;
@@ -47,7 +47,7 @@ public class XmlTag {
     /**
      * Creates a new instance of XmlTag.
      *
-     * @param name name of new tag
+     * @param name  name of new tag
      * @param owner owner of new tag
      */
     public XmlTag(String name, String owner) {

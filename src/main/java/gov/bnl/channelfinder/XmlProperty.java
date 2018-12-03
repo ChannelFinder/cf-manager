@@ -21,8 +21,8 @@ import javax.xml.bind.annotation.XmlType;
  *
  * @author Ralph Lange {@literal <ralph.lange@gmx.de>}
  */
-@XmlRootElement(name="property")
-@XmlType (propOrder={"name","owner","value","channels"})
+@XmlRootElement(name = "property")
+@XmlType(propOrder = { "name", "owner", "value", "channels" })
 public class XmlProperty {
     private String name = null;
     private String owner = null;
@@ -39,7 +39,7 @@ public class XmlProperty {
     /**
      * Creates a new instance of XmlProperty.
      *
-     * @param name property name
+     * @param name  property name
      * @param owner property owner
      */
     public XmlProperty(String name, String owner) {
@@ -50,7 +50,7 @@ public class XmlProperty {
     /**
      * Creates a new instance of XmlProperty.
      *
-     * @param name property name
+     * @param name  property name
      * @param owner property owner
      * @param value property value
      */
@@ -116,6 +116,7 @@ public class XmlProperty {
 
     /**
      * Get the list of channels associated with this property
+     * 
      * @return {@link List} of channels
      */
     public List<XmlChannel> getChannels() {
@@ -138,11 +139,10 @@ public class XmlProperty {
      * @return string representation for log
      */
     public static String toLog(XmlProperty data) {
-         if (data.channels == null) {
+        if (data.channels == null) {
             return data.getName() + "(" + data.getOwner() + ")";
         } else {
-            return data.getName() + "(" + data.getOwner() + ")"
-                    + (data.channels);
+            return data.getName() + "(" + data.getOwner() + ")" + (data.channels);
         }
     }
 }

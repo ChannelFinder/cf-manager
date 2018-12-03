@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -24,14 +23,14 @@ import javax.xml.bind.annotation.XmlType;
  * @author Ralph Lange {@literal <ralph.lange@gmx.de>}
  */
 
-@XmlRootElement(name="channel")
-@XmlType (propOrder={"name","owner","properties","tags"})
+@XmlRootElement(name = "channel")
+@XmlType(propOrder = { "name", "owner", "properties", "tags" })
 public class XmlChannel {
     private String name;
     private String owner;
     private List<XmlProperty> properties = new ArrayList<XmlProperty>();
     private List<XmlTag> tags = new ArrayList<XmlTag>();
-  
+
     /** Creates a new instance of XmlChannel */
     public XmlChannel() {
     }
@@ -48,7 +47,7 @@ public class XmlChannel {
     /**
      * Creates a new instance of XmlChannel.
      *
-     * @param name - channel name
+     * @param name  - channel name
      * @param owner - owner name
      */
     public XmlChannel(String name, String owner) {
@@ -58,10 +57,10 @@ public class XmlChannel {
 
     /**
      * 
-     * @param name - channel name
-     * @param owner - channel owner
+     * @param name       - channel name
+     * @param owner      - channel owner
      * @param properties - list of channel properties
-     * @param tags - list of channel tags
+     * @param tags       - list of channel tags
      */
     public XmlChannel(String name, String owner, List<XmlProperty> properties, List<XmlTag> tags) {
         this.name = name;
@@ -131,7 +130,6 @@ public class XmlChannel {
     public static String toLog(XmlChannel data) {
         return data.getName() + "(" + data.getOwner() + "):["
                 + (data.properties.stream().map(XmlProperty::toLog).collect(Collectors.joining()))
-                + (data.tags.stream().map(XmlTag::toLog).collect(Collectors.joining()))
-                + "]";
+                + (data.tags.stream().map(XmlTag::toLog).collect(Collectors.joining())) + "]";
     }
 }
