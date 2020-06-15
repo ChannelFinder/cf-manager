@@ -1,5 +1,8 @@
 package gov.bnl.channelfinder;
 
+import gov.bnl.channelfinder.report.GenerateReport;
+import org.springframework.boot.SpringApplication;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -8,11 +11,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Logger;
-
-import org.springframework.boot.SpringApplication;
-
-import gov.bnl.channelfinder.exampledb.PopulateExampleDb;
-import gov.bnl.channelfinder.report.GenerateReport;
 
 public class Launcher {
 
@@ -62,15 +60,6 @@ public class Launcher {
                     iter.remove();
                     properties.put("es_port", iter.next());
                     iter.remove();
-                } else if (cmd.equals("-generate-example-db")) {
-                    if (!iter.hasNext())
-                        throw new Exception("Missing number of cells in the example db");
-                    iter.remove();
-                    properties.put("cell_count", iter.next());
-                    iter.remove();
-                    PopulateExampleDb.createDB(properties.getProperty("es_host"),
-                            Integer.valueOf(properties.getProperty("es_port")),
-                            Integer.valueOf(properties.getProperty("cell_count")));
                 } else if (cmd.equals("-generate-report")) {
                     // generate report
                     GenerateReport.createReport(properties.getProperty("es_host"),

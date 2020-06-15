@@ -10,11 +10,10 @@ package gov.bnl.channelfinder;
  * #L%
  */
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Property object that can be represented as JSON in payload data.

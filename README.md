@@ -17,7 +17,6 @@ Supported operations
 
 ```
 -generate-report          - Generate a report on the recsync properties
--generate-example-db 20   - Create the example channelfinder database with 20 cells
 -es_host  localhost       - elastic server host
 -es_port  9200            - elastic server port
 -help                     - print this text
