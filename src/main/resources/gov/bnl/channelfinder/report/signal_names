@@ -1,0 +1,92 @@
+Addr	Address
+Alrm	Alarm
+Alpha	Alpha (physics calc)
+Angle	Angle
+Beta	Beta (physics calc)
+Btn	Button
+ByPs	Bypass
+Chan	Channel
+Cmd	Command
+Cnt	Count/number
+Conc	Concentration
+Contrib	Contribution
+DB	Database internal record
+DI	Digital input
+Dir	Direction
+Div	Divider
+DO	Digital output
+Dsbl	Disable
+Dose	Accumulated Radiation Dose
+DoseRate	Instantaneous (or average) radiation dose rate
+DP	Differential Pressure
+E	Voltage
+Emis	Emission
+Emit	Emittance (physics calc)
+Enbl	Enable
+Enrgy	Energy
+Err	Error
+EStop	Emergency Stop
+EU	Engineering Units
+Evt	Event
+F	Flow
+FileName	FileName
+Fld	Field (magnetic)
+Flt	Fault
+Freq	Frequency
+Gain	Gain (e.g., control loop)
+I	Current
+ID	Indentifier (e.g. serial number)
+In	Input (e.g., from PLC)
+Ind	Indicator (e.g. lamp, light, LED)
+Inh	Inhibit
+Int	Intensity
+L	Level
+Lck	Lock
+Lim	Limit
+Mark	Mark (position indicator)
+Mass	Mass
+Mode	Mode
+Name	Name
+Offset	Offset
+Out	Output (e.g., from PLC)
+P	Pressure
+PD	Pressure differential
+Permit	Permit
+Phs	Phase
+Pol	Polarity
+Pos	Position
+Pwr	Power
+Rdy	Ready
+R	Resistance (electrical) - Placeholder
+Req	Request
+Res	Resolution
+RH	Relative humidity
+Ri	Resistivity
+Rslt	Result
+Rslv	Resolver
+Rsrv	Reserved
+Rst	Reset
+S	Speed
+Secure	Secure
+Src	Source
+Siren	Alarm siren
+Size	Size
+Slope	Slope
+State	State (step in sequence)
+Step	Step
+Sts	Status
+Sw	Switch
+T	Temperature
+Tbl	Table
+TD	Temperature differential
+Time	Time
+Trig	Trigger
+Trip	Interlock trip
+Type	Type (of device)
+Undo	Undo
+VVib	Vibration
+Val	Value (generic signal name)
+Ver	Version
+Volt	Voltage
+W	Weight or Force
+Width	Width

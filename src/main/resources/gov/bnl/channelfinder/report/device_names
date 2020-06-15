@@ -1,0 +1,168 @@
+Abs	Absorber
+ABSC	crotch absorber
+ABSD	distributed absorber
+ABSF	flange absorber
+ABSS	stick absorber
+ABSU	Undulator absorber
+ABSW	wiggler absorber
+Annc	Annunciator
+Anode	anode
+Asm	Assembly
+AutoColl	Autocollimator
+BAKJ	bakeout heating jackets
+BC	Bremsstrahlung Collimator
+Beacon	Warning beacon
+Bend	Dipole (magnet)
+BHS	High Stability electron Beam position monitor
+BLA	Large Aperture electron Beam position monitor
+BLW	non-rf bellows
+BLWR	rf shielded bellows
+BMPS	Bending Magnet Photon Shutter
+BPM	Beam Position Monitor
+BS	Beam stop
+BSA	Small Aperture electron Beam position monitor
+BT	Beam transport pipe/beam tube
+BV	Bypass Valve
+Cam	Camera
+Cav	RF Cavity
+CBx	Coldbox
+CCG	cold cathode vacuum gauge
+Chl	Chiller
+CHM (or Chm)	vacuum chamber
+CHMA	aluminum chamber
+CHMC	ceramic chamber
+CHMS	stainless chamber
+Cmpr	Compressor
+Col	Collimator
+Cor	Corrector magnet
+CR	Control Room
+CRL 	Compound Refractive Lens
+CRP 	cryopump?
+Cross	Vacuum Cross
+Cryo	Cryocooler
+Ctrlr	Controller
+CV	Control valve
+Defl	Deflector
+Det	Detector
+Dewar	Dewar
+Dev	Device (generic name)
+Diag	Diagnostic
+Dif	Diffractometer
+Dig	Digitizer
+Door	Door
+DPT	Dipole Trim magnet
+DV	Drain Valve
+DW	Damping Wiggler 
+EM	Experimental Module
+Env	Sample environment
+EPU	Elliptically Polarizing Undulator
+EV	Evacuation Valve
+FDTH	feedthru?
+FIV	foreline isolation valve
+FLG	flange?
+Fltr	Filter
+FLW	water flow meter
+FS	Fluorescent screen
+FT	Fast Trim magnet
+FV	fast valve
+FGV	Fast gate valve
+FVC	Fast valve controller
+FVS	fast valve sensor
+GHS	Gas Handling System
+Gntry	Metrology gantry
+Grt	Grating (e.g., monochromator)
+Gu	Guillotine
+GV	gate valve (may be used for FE and BL)
+HCor	Horizontal Corrector Magnet
+HEx	Heat Exchanger
+HFCor	Horizontal Fast Corrector Magnet
+Htr	Heater
+Hu	Hutch (experimental)
+IF	Interface
+IM	Intensity monitor (e.g ion chamber, photodiode)
+IO	Input/output
+IOC	EPICS IOC
+IP	sputter ion pump
+IPC	ion pump controller
+IV	Isolation valve
+IVU	In-Vacuum Undulator
+KSU	Klystron Supply Unit
+LD	leak detector
+Lbyr	Labyrinth
+Laser	Lsr
+Lens	Lens (focussing element)
+Lin	Linac (Tanks)
+LN2	Liquid Nitrogen
+Mark	Placeholder position for calculations
+MCA	Multi-Channel Analyzer
+MG	Magnet
+Mir	Mirror
+Mod	Modulator
+Mon	Monitor
+Mono	Monochromator
+MP	mechanical pump (separate name for dry MP?)
+Mscp	Microscope
+Msk	Mask
+Mtr	Motor
+NEG	non-evaporable getter pump
+NEGC	NEG pump controller
+NOM	Nanometre Optical Metrology
+NSW	Network Switch
+Osc	Oscillator
+Panel	HMI Panel/Patch Panel
+PCW	Processed Chilled Water
+PhS	Phase Separator
+PID	PID controller (standalone or PLC)
+PIV	pump isolation valve (may be similar to RV?)
+PLC	Programmable Logic Controller
+PRV	pressure relief valve
+PS	Power supply
+PSh	Photon Shutter
+Pmp	Pump
+Quad	Quadrupole magnet
+Rack	Equipment Rack
+RadMon	Radiation Monitor
+RAV	right angle valve
+Rcvy	Recovery
+RG	Rack Group
+RGA	residual gas analyzer / partial pressure analyzer
+RP	roughing pump (may be similar to MP)
+RV	roughing valve
+SCA	Single-Channel Analyzer
+Scan	Scan (for experiment control)
+Sclr	Scaler (e.g., SIS3820)
+Scrpr	Scraper
+Sext	Sextupole magnet
+SF	Secondary Focusing
+Shld	Shield
+Sh	Shutter
+Slt	Slit (beam definining)
+SM	Sample mounter
+Solnd	Solenoid
+Spec	Spectrometer
+Spn	Spinner
+SQuad	Skew quadrupole
+SS	Secondary Source
+SSh	Safety Shutter
+STD	chamber stands
+Stg	Stage
+Tbl	Table
+TC	thermocouple for temperature
+TCG	thermal conductivity vacuum gauge
+TMP	turbomolecular pump and turbopump station
+TPW	Three Pole Wiggler
+TSP	titanium sublimation pump
+TSPC	titanium sublimation pump controller
+TSrv	Terminal server
+Turb	Turbine
+Txm	Transmitter
+VBD	vacuum burst disc (or diaphragm)
+VBx	Valvebox
+VCor	Vertical Corrector Magnet
+Ves	Vessel
+VF	Visual Flag
+VFCor	Vertical Fast Corrector Magnet
+VFD	Variable Frequency Drive
+VGC	vacuum gauge controller
+VV	vent valve
+Win	Window (vacuum isolation)
