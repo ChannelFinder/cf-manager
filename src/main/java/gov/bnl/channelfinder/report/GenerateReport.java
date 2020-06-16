@@ -35,8 +35,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -52,6 +54,8 @@ public class GenerateReport {
 
     private static ExecutorService executorService = Executors.newFixedThreadPool(16);
     private static RestHighLevelClient searchClient;
+
+    private static ServiceLoader<PVNamesProcessor> processPVNamesServiceLoader = ServiceLoader.load(PVNamesProcessor.class);
 
     public static void createReport(String es_host, int es_port) throws IOException {
         try {
@@ -84,7 +88,7 @@ public class GenerateReport {
             mapper.addMixIn(XmlProperty.class, OnlyXmlProperty.class);
             mapper.addMixIn(XmlTag.class, OnlyXmlTag.class);
 
-            while (searchHits != null && searchHits.length > 0) {
+            while (searchHits != null && searchHits.length < 0) {
 
                 for (SearchHit hit : searchResponse.getHits().getHits()) {
                     XmlChannel ch = mapper.readValue(hit.getSourceAsString(), XmlChannel.class);
@@ -147,22 +151,23 @@ public class GenerateReport {
 
                 // check
                 final Set<String> pvNames = Collections.unmodifiableSet(pvs);
+                final List<FutureTask<String>> tasks = new ArrayList<>();
 
+                for (PVNamesProcessor pvNamesProcessor : processPVNamesServiceLoader) {
+                    pvNamesProcessor.setPVNames(pvNames);
+                    FutureTask<String> task = new FutureTask<>(pvNamesProcessor);
+                    executorService.submit(task);
+                    tasks.add(task);
+                }
 
-                Future<String> task = executorService.submit(new Callable<String>() {
-                    private List<String> longerPV = new ArrayList<>();
-                    @Override
-                    public String call() throws Exception {
-                        pvNames.stream().forEach(pv -> {
-                            if (pv.length() > 60) {
-                                longerPV.add(pv);
-                            }
-                        });
-                        return "PV with names exceeding 60 chars: " + longerPV.size();
+                tasks.stream().forEach(t -> {
+                    try {
+                        outStream.writeUTF(t.get());
+                    } catch (IOException | InterruptedException | ExecutionException e) {
+                        e.printStackTrace();
                     }
                 });
 
-                outStream.writeUTF(task.get());
             }
 
 

@@ -7,16 +7,12 @@ import java.util.stream.Collectors;
 /**
  * Check that the length of the pv names does not exceed 60 chars.
  */
-public class ProcessPVNamesLength implements ProcessPVNames {
+public class PVNamesLengthProcessor implements PVNamesProcessor {
 
-    private final Set<String> pvNames;
-
-    public ProcessPVNamesLength(Set<String> pvNames) {
-        this.pvNames = pvNames;
-    }
+    private Set<String> pvNames;
 
     @Override
-    public String call() throws Exception {
+    public String call() {
         List<String> longNames = pvNames.stream().filter(pvName -> {
             return pvName.length() > 60;
         }).collect(Collectors.toList());
@@ -24,5 +20,10 @@ public class ProcessPVNamesLength implements ProcessPVNames {
         sb.append(System.lineSeparator());
         sb.append(longNames.stream().collect(Collectors.joining(" ")));
         return sb.toString();
+    }
+
+    @Override
+    public void setPVNames(Set<String> pvNames) {
+        this.pvNames = pvNames;
     }
 }
