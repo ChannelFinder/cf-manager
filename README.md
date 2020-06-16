@@ -75,5 +75,8 @@ The name is composed of system, device, and signal information.
 
 Check that pv names don't exceed 60 characters including delimiters.
 
+##### 2. Device validator:
+
+Check that the pv names contain a device and the primary device is in the approved device_name list
  
  
