@@ -27,7 +27,14 @@ Supported operations
 
 
 ### Syntax Rules for the Standard name format
+
+The default structure of NSLS2 pv names is as follows:
 	
+`PSy:PI-SSy:SI-TSy:TI{PDev:PDI-SDev:SDI-...}Sg:SgI-SD`
+
+The name is composed of system, device, and signal information.
+
+
 ```
 1		Characters in names to conform with allowed EPICS conventions				
 		Allowed characters			a-z  A-Z 0-9 _ - : [ ] < > ; {}	
@@ -61,3 +68,12 @@ Supported operations
 		Primary-Secondary			Allowed	
 		Primary-Tertiary			Forbidden	
 ```
+
+#### The validators run by the generate-report process are the following:
+
+##### 1. Name length validator:
+
+Check that pv names don't exceed 60 characters including delimiters.
+
+ 
+ 
