@@ -20,12 +20,27 @@ import org.elasticsearch.search.Scroll;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 
+import java.io.BufferedOutputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
 import java.util.stream.Collectors;
 
 import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
@@ -35,6 +50,7 @@ import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
  */
 public class GenerateReport {
 
+    private static ExecutorService executorService = Executors.newFixedThreadPool(16);
     private static RestHighLevelClient searchClient;
 
     public static void createReport(String es_host, int es_port) throws IOException {
@@ -108,18 +124,47 @@ public class GenerateReport {
             ClearScrollResponse clearScrollResponse = searchClient.clearScroll(clearScrollRequest, RequestOptions.DEFAULT);
             boolean succeeded = clearScrollResponse.isSucceeded();
 
-            // System.out.println(qbResult.getHits().getHits().length);
-            // Break condition: No hits are returned
-            System.out.println("Unique Channels:" + pvs.size());
-//                    pvs.forEach(System.out::println);
-            System.out.println("Unique Hosts:" + propertyValues.get("hostName").keySet().size());
-            System.out.println(propertyValues.get("hostName").entrySet().stream().map(entry -> {
-                return entry.getKey() + ":" + entry.getValue().size();
-            }).collect(Collectors.joining(",")));
-            System.out.println("Unique iocid:" + propertyValues.get("iocid").size());
-            System.out.println(propertyValues.get("iocid").entrySet().stream().map(entry -> {
-                return entry.getKey() + ":" + entry.getValue().size();
-            }).collect(Collectors.joining(",")));
+            File file = Files.createFile(Paths.get("report"+ LocalDateTime.from(Instant.now()).toString() +".txt")).toFile();
+
+            try (FileOutputStream fileOutputStream = new FileOutputStream(file);
+                 DataOutputStream outStream = new DataOutputStream(new BufferedOutputStream(fileOutputStream));)
+            {
+                outStream.writeUTF("Unique Channels:" + pvs.size());
+                outStream.writeUTF(System.lineSeparator());
+
+                outStream.writeUTF("Unique Hosts:" + propertyValues.get("hostName").keySet().size());
+                outStream.writeUTF(System.lineSeparator());
+                outStream.writeUTF(propertyValues.get("hostName").entrySet().stream().map(entry -> {
+                    return entry.getKey() + ":" + entry.getValue().size();
+                }).collect(Collectors.joining(",")));
+
+                outStream.writeUTF("Unique iocid:" + propertyValues.get("iocid").size());
+                outStream.writeUTF(System.lineSeparator());
+                outStream.writeUTF(propertyValues.get("iocid").entrySet().stream().map(entry -> {
+                    return entry.getKey() + ":" + entry.getValue().size();
+                }).collect(Collectors.joining(",")));
+                outStream.writeUTF(System.lineSeparator());
+
+                // check
+                final Set<String> pvNames = Collections.unmodifiableSet(pvs);
+
+
+                Future<String> task = executorService.submit(new Callable<String>() {
+                    private List<String> longerPV = new ArrayList<>();
+                    @Override
+                    public String call() throws Exception {
+                        pvNames.stream().forEach(pv -> {
+                            if (pv.length() > 60) {
+                                longerPV.add(pv);
+                            }
+                        });
+                        return "PV with names exceeding 60 chars: " + longerPV.size();
+                    }
+                });
+
+                outStream.writeUTF(task.get());
+            }
+
 
         } catch (Exception e) {
             e.printStackTrace();
