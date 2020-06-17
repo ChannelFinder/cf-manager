@@ -13,6 +13,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static gov.bnl.channelfinder.report.PVNameSplitter.*;
+
 /**
  * Validate the device part of the pv name.
  * Check that the pv name has a device section included.
@@ -51,8 +53,7 @@ public class PVNamesDeviceProcessor implements PVNamesProcessor {
         pvNames.stream().forEach( pvName -> {
             Matcher matcher = devicePattern.matcher(pvName);
             if(matcher.matches()) {
-                System.out.println("device pattern matches for : " + pvName);
-                if(!deviceNames.contains(matcher.group())){
+                if(!deviceNames.contains(PVNameSplitter.process(matcher.group(0)).get(PRIMARY))){
                     unknownDevices.add(pvName);
                 }
             } else {
