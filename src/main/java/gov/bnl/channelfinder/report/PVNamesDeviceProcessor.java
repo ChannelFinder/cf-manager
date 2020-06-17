@@ -2,18 +2,16 @@ package gov.bnl.channelfinder.report;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static gov.bnl.channelfinder.report.PVNameSplitter.*;
+import static gov.bnl.channelfinder.report.PVNameSplitter.PRIMARY;
 
 /**
  * Validate the device part of the pv name.
@@ -23,9 +21,9 @@ import static gov.bnl.channelfinder.report.PVNameSplitter.*;
 public class PVNamesDeviceProcessor implements PVNamesProcessor {
 
     private Set<String> pvNames;
-    
+
     private static final Pattern devicePattern = Pattern.compile(".*\\{(.*)\\}.*");
-    
+
     private static File file = new File(PVNamesDeviceProcessor.class.getResource("device_names").getFile());
     private static Set<String> deviceNames = new HashSet<>();
 
@@ -38,8 +36,6 @@ public class PVNamesDeviceProcessor implements PVNamesProcessor {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
     @Override
@@ -53,7 +49,8 @@ public class PVNamesDeviceProcessor implements PVNamesProcessor {
         pvNames.stream().forEach( pvName -> {
             Matcher matcher = devicePattern.matcher(pvName);
             if(matcher.matches()) {
-                if(!deviceNames.contains(PVNameSplitter.process(matcher.group(0)).get(PRIMARY))){
+                Optional<String> primary = PVNameSplitter.process(matcher.group(1)).get(PRIMARY);
+                if(primary.isEmpty() || !deviceNames.contains(primary.get())){
                     unknownDevices.add(pvName);
                 }
             } else {
