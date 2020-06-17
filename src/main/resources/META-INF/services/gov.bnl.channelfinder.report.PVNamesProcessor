@@ -1,0 +1,3 @@
+gov.bnl.channelfinder.report.PVNamesLengthProcessor
+gov.bnl.channelfinder.report.PVNamesDeviceProcessor
+gov.bnl.channelfinder.report.PVNamesSystemProcessor
