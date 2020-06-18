@@ -1,4 +1,4 @@
-Abs	Absorber
+ABS	Absorber
 ABSC	crotch absorber
 ABSD	distributed absorber
 ABSF	flange absorber
@@ -23,33 +23,33 @@ BS	Beam stop
 BSA	Small Aperture electron Beam position monitor
 BT	Beam transport pipe/beam tube
 BV	Bypass Valve
-Cam	Camera
-Cav	RF Cavity
-CBx	Coldbox
+CAM	Camera
+CAV	RF Cavity
+CBX	Coldbox
 CCG	cold cathode vacuum gauge
-Chl	Chiller
+CHL	Chiller
 CHM (or Chm)	vacuum chamber
 CHMA	aluminum chamber
 CHMC	ceramic chamber
 CHMS	stainless chamber
-Cmpr	Compressor
-Col	Collimator
-Cor	Corrector magnet
+CMPR	Compressor
+COL	Collimator
+COR	Corrector magnet
 CR	Control Room
 CRL 	Compound Refractive Lens
 CRP 	cryopump?
-Cross	Vacuum Cross
-Cryo	Cryocooler
+CROSS	Vacuum Cross
+CRYO	Cryocooler
 Ctrlr	Controller
 CV	Control valve
 Defl	Deflector
-Det	Detector
+DET	Detector
 Dewar	Dewar
-Dev	Device (generic name)
-Diag	Diagnostic
-Dif	Diffractometer
-Dig	Digitizer
-Door	Door
+DEV	Device (generic name)
+DIAG	Diagnostic
+DIF	Diffractometer
+DIG	Digitizer
+DOOR	Door
 DPT	Dipole Trim magnet
 DV	Drain Valve
 DW	Damping Wiggler 
@@ -60,7 +60,7 @@ EV	Evacuation Valve
 FDTH	feedthru?
 FIV	foreline isolation valve
 FLG	flange?
-Fltr	Filter
+FLTR	Filter
 FLW	water flow meter
 FS	Fluorescent screen
 FT	Fast Trim magnet
@@ -71,13 +71,13 @@ FVS	fast valve sensor
 GHS	Gas Handling System
 Gntry	Metrology gantry
 Grt	Grating (e.g., monochromator)
-Gu	Guillotine
+GU	Guillotine
 GV	gate valve (may be used for FE and BL)
-HCor	Horizontal Corrector Magnet
-HEx	Heat Exchanger
-HFCor	Horizontal Fast Corrector Magnet
-Htr	Heater
-Hu	Hutch (experimental)
+HCOR	Horizontal Corrector Magnet
+HEX	Heat Exchanger
+HFCOR	Horizontal Fast Corrector Magnet
+HTR	Heater
+HU	Hutch (experimental)
 IF	Interface
 IM	Intensity monitor (e.g ion chamber, photodiode)
 IO	Input/output
@@ -88,81 +88,81 @@ IV	Isolation valve
 IVU	In-Vacuum Undulator
 KSU	Klystron Supply Unit
 LD	leak detector
-Lbyr	Labyrinth
-Laser	Lsr
-Lens	Lens (focussing element)
-Lin	Linac (Tanks)
+LBYR	Labyrinth
+LASER	Lsr
+LENS	Lens (focussing element)
+LIN	Linac (Tanks)
 LN2	Liquid Nitrogen
-Mark	Placeholder position for calculations
+MARK	Placeholder position for calculations
 MCA	Multi-Channel Analyzer
 MG	Magnet
-Mir	Mirror
-Mod	Modulator
-Mon	Monitor
-Mono	Monochromator
+MIR	Mirror
+MOD	Modulator
+MON	Monitor
+MONO	Monochromator
 MP	mechanical pump (separate name for dry MP?)
-Mscp	Microscope
-Msk	Mask
-Mtr	Motor
+MSCP	Microscope
+MSK	Mask
+MTR	Motor
 NEG	non-evaporable getter pump
 NEGC	NEG pump controller
 NOM	Nanometre Optical Metrology
 NSW	Network Switch
-Osc	Oscillator
-Panel	HMI Panel/Patch Panel
+OSC	Oscillator
+PANEL	HMI Panel/Patch Panel
 PCW	Processed Chilled Water
-PhS	Phase Separator
+PHS	Phase Separator
 PID	PID controller (standalone or PLC)
 PIV	pump isolation valve (may be similar to RV?)
 PLC	Programmable Logic Controller
 PRV	pressure relief valve
 PS	Power supply
 PSh	Photon Shutter
-Pmp	Pump
-Quad	Quadrupole magnet
-Rack	Equipment Rack
-RadMon	Radiation Monitor
+PMP	Pump
+QUAD	Quadrupole magnet
+RACK	Equipment Rack
+RADMON	Radiation Monitor
 RAV	right angle valve
-Rcvy	Recovery
+RCVY	Recovery
 RG	Rack Group
 RGA	residual gas analyzer / partial pressure analyzer
 RP	roughing pump (may be similar to MP)
 RV	roughing valve
 SCA	Single-Channel Analyzer
-Scan	Scan (for experiment control)
-Sclr	Scaler (e.g., SIS3820)
+SCAN	Scan (for experiment control)
+SCLR	Scaler (e.g., SIS3820)
 Scrpr	Scraper
-Sext	Sextupole magnet
+SEXT	Sextupole magnet
 SF	Secondary Focusing
-Shld	Shield
-Sh	Shutter
-Slt	Slit (beam definining)
+SHLD	Shield
+SH	Shutter
+SLT	Slit (beam definining)
 SM	Sample mounter
 Solnd	Solenoid
-Spec	Spectrometer
-Spn	Spinner
-SQuad	Skew quadrupole
+SPES	Spectrometer
+SPN	Spinner
+SQUAD	Skew quadrupole
 SS	Secondary Source
-SSh	Safety Shutter
+SSH	Safety Shutter
 STD	chamber stands
-Stg	Stage
-Tbl	Table
+STG	Stage
+TBL	Table
 TC	thermocouple for temperature
 TCG	thermal conductivity vacuum gauge
 TMP	turbomolecular pump and turbopump station
 TPW	Three Pole Wiggler
 TSP	titanium sublimation pump
 TSPC	titanium sublimation pump controller
-TSrv	Terminal server
-Turb	Turbine
-Txm	Transmitter
+TSRV	Terminal server
+TURB	Turbine
+TXM	Transmitter
 VBD	vacuum burst disc (or diaphragm)
-VBx	Valvebox
-VCor	Vertical Corrector Magnet
-Ves	Vessel
+VBX	Valvebox
+VCOR	Vertical Corrector Magnet
+VES	Vessel
 VF	Visual Flag
-VFCor	Vertical Fast Corrector Magnet
+VFCOR	Vertical Fast Corrector Magnet
 VFD	Variable Frequency Drive
 VGC	vacuum gauge controller
 VV	vent valve
-Win	Window (vacuum isolation)
+WIN	Window (vacuum isolation)
