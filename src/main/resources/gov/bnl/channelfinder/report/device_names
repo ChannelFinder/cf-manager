@@ -5,14 +5,14 @@ ABSF	flange absorber
 ABSS	stick absorber
 ABSU	Undulator absorber
 ABSW	wiggler absorber
-Annc	Annunciator
-Anode	anode
-Asm	Assembly
+ANNC	Annunciator
+ANODE	anode
+ASM	Assembly
 AutoColl	Autocollimator
 BAKJ	bakeout heating jackets
 BC	Bremsstrahlung Collimator
 Beacon	Warning beacon
-Bend	Dipole (magnet)
+BEND	Dipole (magnet)
 BHS	High Stability electron Beam position monitor
 BLA	Large Aperture electron Beam position monitor
 BLW	non-rf bellows
@@ -40,11 +40,11 @@ CRL 	Compound Refractive Lens
 CRP 	cryopump?
 CROSS	Vacuum Cross
 CRYO	Cryocooler
-Ctrlr	Controller
+CTRLR	Controller
 CV	Control valve
-Defl	Deflector
+DEFL	Deflector
 DET	Detector
-Dewar	Dewar
+DEWAR	Dewar
 DEV	Device (generic name)
 DIAG	Diagnostic
 DIF	Diffractometer
@@ -54,7 +54,7 @@ DPT	Dipole Trim magnet
 DV	Drain Valve
 DW	Damping Wiggler 
 EM	Experimental Module
-Env	Sample environment
+ENV	Sample environment
 EPU	Elliptically Polarizing Undulator
 EV	Evacuation Valve
 FDTH	feedthru?

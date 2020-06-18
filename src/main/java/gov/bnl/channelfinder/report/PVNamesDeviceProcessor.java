@@ -33,6 +33,7 @@ public class PVNamesDeviceProcessor implements PVNamesProcessor {
             while ((line = reader.readLine()) != null) {
                 deviceNames.add(line.split("\\s+")[0]);
             }
+            System.out.println("devices found: " + deviceNames.size());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -44,13 +45,18 @@ public class PVNamesDeviceProcessor implements PVNamesProcessor {
         // List of pv's with no device specified.
         Set<String> missingDevices = new HashSet<>();
         // List of pv's with device names
+        Set<String> unknownDeviceNames = new HashSet<>();
         Set<String> unknownDevices = new HashSet<>();
 
         pvNames.stream().forEach( pvName -> {
             Matcher matcher = devicePattern.matcher(pvName);
             if(matcher.matches()) {
+                if (matcher.group(1) == null) {
+                    System.out.println("null device : " + pvName);
+                }
                 Optional<String> primary = PVNameSplitter.process(matcher.group(1)).get(PRIMARY);
                 if(primary.isEmpty() || !deviceNames.contains(primary.get())){
+                    unknownDeviceNames.add(primary.get());
                     unknownDevices.add(pvName);
                 }
             } else {
@@ -63,6 +69,11 @@ public class PVNamesDeviceProcessor implements PVNamesProcessor {
         sb.append("PV names with no device specified : " + missingDevices.size());
         sb.append(System.lineSeparator());
         sb.append(missingDevices.stream().collect(Collectors.joining(" ")));
+        sb.append(System.lineSeparator());
+
+        sb.append("unknown device specified : " + unknownDeviceNames.size());
+        sb.append(System.lineSeparator());
+        sb.append(unknownDeviceNames.stream().collect(Collectors.joining(" ")));
         sb.append(System.lineSeparator());
 
         sb.append("PV names with an unknown device specified : " + unknownDevices.size());
