@@ -38,22 +38,30 @@ public class PVNamesSystemProcessor implements PVNamesProcessor {
     public String call() {
 
         // List of pv's with system names
-        Set<String> unknownSystem = new HashSet<>();
+        Set<String> pvsWithUnknownSystem = new HashSet<>();
+        Set<String> unkownSystems = new HashSet<>();
 
         pvNames.stream().forEach(pvName -> {
             int index = pvName.contains("{") ? pvName.indexOf("{") : pvName.length();
             Optional<String> primary = PVNameSplitter.process(pvName.substring(0, index)).get(PRIMARY);
             if (primary.isEmpty() || !systemNames.contains(primary.get())) {
-                unknownSystem.add(pvName);
+                pvsWithUnknownSystem.add(pvName);
+                unkownSystems.add(primary.get());
             }
         });
 
 
         StringBuilder sb = new StringBuilder();
 
-        sb.append("PV names with an unknown system specified : " + unknownSystem.size());
+
+        sb.append("Unknown system specified : " + unkownSystems.size());
         sb.append(System.lineSeparator());
-        sb.append(unknownSystem.stream().collect(Collectors.joining(" ")));
+        sb.append(unkownSystems.stream().collect(Collectors.joining(" ")));
+        sb.append(System.lineSeparator());
+
+        sb.append("PV names with an unknown system specified : " + pvsWithUnknownSystem.size());
+        sb.append(System.lineSeparator());
+        sb.append(pvsWithUnknownSystem.stream().collect(Collectors.joining(" ")));
         sb.append(System.lineSeparator());
 
         return sb.toString();
