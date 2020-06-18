@@ -28,7 +28,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -88,8 +90,10 @@ public class GenerateReport {
             mapper.addMixIn(XmlProperty.class, OnlyXmlProperty.class);
             mapper.addMixIn(XmlTag.class, OnlyXmlTag.class);
 
-            while (searchHits != null && searchHits.length < 0) {
+            int count = 0;
+            while (searchHits != null && searchHits.length > 0 && count < 10000) {
 
+                System.out.println("processing hits : " + count + " - " + (count + searchHits.length));
                 for (SearchHit hit : searchResponse.getHits().getHits()) {
                     XmlChannel ch = mapper.readValue(hit.getSourceAsString(), XmlChannel.class);
                     pvs.add(ch.getName());
@@ -121,6 +125,7 @@ public class GenerateReport {
                 scrollId = searchResponse.getScrollId();
                 searchHits = searchResponse.getHits().getHits();
 
+                count = count + searchHits.length;
             }
 
             ClearScrollRequest clearScrollRequest = new ClearScrollRequest();
@@ -128,7 +133,9 @@ public class GenerateReport {
             ClearScrollResponse clearScrollResponse = searchClient.clearScroll(clearScrollRequest, RequestOptions.DEFAULT);
             boolean succeeded = clearScrollResponse.isSucceeded();
 
-            File file = Files.createFile(Paths.get("report"+ LocalDateTime.from(Instant.now()).toString() +".txt")).toFile();
+            LocalDate localDate = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());
+            System.out.println(localDate.toString());
+            File file = Files.createFile(Paths.get("report"+ localDate.toString() +".txt")).toFile();
 
             try (FileOutputStream fileOutputStream = new FileOutputStream(file);
                  DataOutputStream outStream = new DataOutputStream(new BufferedOutputStream(fileOutputStream));)
@@ -142,12 +149,23 @@ public class GenerateReport {
                     return entry.getKey() + ":" + entry.getValue().size();
                 }).collect(Collectors.joining(",")));
 
-                outStream.writeUTF("Unique iocid:" + propertyValues.get("iocid").size());
-                outStream.writeUTF(System.lineSeparator());
-                outStream.writeUTF(propertyValues.get("iocid").entrySet().stream().map(entry -> {
-                    return entry.getKey() + ":" + entry.getValue().size();
-                }).collect(Collectors.joining(",")));
-                outStream.writeUTF(System.lineSeparator());
+                if (propertyValues.containsKey("iocid")) {
+                    outStream.writeUTF("Unique iocid:" + propertyValues.get("iocid").size());
+                    outStream.writeUTF(System.lineSeparator());
+                    outStream.writeUTF(propertyValues.get("iocid").entrySet().stream().map(entry -> {
+                        return entry.getKey() + ":" + entry.getValue().size();
+                    }).collect(Collectors.joining(",")));
+                    outStream.writeUTF(System.lineSeparator());
+                }
+
+                if (propertyValues.containsKey("iocName")) {
+                    outStream.writeUTF("Unique iocName:" + propertyValues.get("iocName").size());
+                    outStream.writeUTF(System.lineSeparator());
+                    outStream.writeUTF(propertyValues.get("iocName").entrySet().stream().map(entry -> {
+                        return entry.getKey() + ":" + entry.getValue().size();
+                    }).collect(Collectors.joining(",")));
+                    outStream.writeUTF(System.lineSeparator());
+                }
 
                 // check
                 final Set<String> pvNames = Collections.unmodifiableSet(pvs);
@@ -162,7 +180,23 @@ public class GenerateReport {
 
                 tasks.stream().forEach(t -> {
                     try {
-                        outStream.writeUTF(t.get());
+                        // outStream.writeChars(t.get());
+                        String s = t.get();
+
+                        if (s == null) {
+                            outStream.writeByte(0);
+                        } else {
+                            outStream.writeByte(1);
+                            if (s.length() < 16*1024) {
+                                outStream.writeUTF(s);
+                            } else {
+                                // here comes the simple workaround
+                                byte[] b = s.getBytes("utf-8");
+                                outStream.writeInt(b.length);
+                                outStream.write(b);
+                            }
+                        }
+
                     } catch (IOException | InterruptedException | ExecutionException e) {
                         e.printStackTrace();
                     }
