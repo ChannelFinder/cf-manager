@@ -35,6 +35,14 @@ public class PVNameSplitter {
      */
     public static Map<String, Optional<String>> process(String str) {
         Map<String, Optional<String>> result = new HashMap<>();
+
+        result.put(PRIMARY, Optional.empty());
+        result.put(PRIMARY_INST, Optional.empty());
+        result.put(SECONDARY, Optional.empty());
+        result.put(SECONDARY_INST, Optional.empty());
+        result.put(TERTIARY, Optional.empty());
+        result.put(TERTIARY_INST, Optional.empty());
+
         Matcher matcher = priSecTerPattern.matcher(str);
         if (matcher.matches()) {
             result.put(PRIMARY, Optional.ofNullable(matcher.group(1)));
@@ -50,17 +58,11 @@ public class PVNameSplitter {
                 result.put(PRIMARY_INST, Optional.ofNullable(matcher.group(2) == null ? null : matcher.group(2).substring(1)));
                 result.put(SECONDARY, Optional.ofNullable(matcher.group(3)));
                 result.put(SECONDARY_INST, Optional.ofNullable(matcher.group(4) == null ? null : matcher.group(4).substring(1)));
-                result.put(TERTIARY, Optional.empty());
-                result.put(TERTIARY_INST, Optional.empty());
             } else {
                 matcher = priPattern.matcher(str);
                 if (matcher.matches()) {
                     result.put(PRIMARY, Optional.ofNullable(matcher.group(1)));
                     result.put(PRIMARY_INST, Optional.ofNullable(matcher.group(2) == null ? null : matcher.group(2).substring(1)));
-                    result.put(SECONDARY, Optional.empty());
-                    result.put(SECONDARY_INST, Optional.empty());
-                    result.put(TERTIARY, Optional.empty());
-                    result.put(TERTIARY_INST, Optional.empty());
                 }
             }
         }
