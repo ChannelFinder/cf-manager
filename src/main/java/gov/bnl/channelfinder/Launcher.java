@@ -60,10 +60,14 @@ public class Launcher {
                     iter.remove();
                     properties.put("es_port", iter.next());
                     iter.remove();
+                } else if (cmd.equals("-exclude_inactive")) {
+                    properties.put("exclude_inactive", true);
+                    iter.remove();
                 } else if (cmd.equals("-generate-report")) {
                     // generate report
                     GenerateReport.createReport(properties.getProperty("es_host"),
-                            Integer.valueOf(properties.getProperty("es_port")));
+                            Integer.valueOf(properties.getProperty("es_port")),
+                            properties.containsKey("exclude_inactive"));
                 } else {
                     throw new Exception("Unknown option " + cmd);
                 }
@@ -81,9 +85,9 @@ public class Launcher {
         System.out.println("Command-line arguments:");
         System.out.println();
         System.out.println("-generate-report          - Generate a report on the recsync properties");
-        System.out.println("-generate-example-db 20   - Create the example channelfinder database with 20 cells");
         System.out.println("-es_host  localhost       - elastic server host");
         System.out.println("-es_port  9200            - elastic server port");
+        System.out.println("-exclude_inactive         - exclude inactive pvs");
         System.out.println("-help                     - print this text");
         System.out.println();
     }

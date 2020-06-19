@@ -6,6 +6,7 @@ import gov.bnl.channelfinder.XmlChannel;
 import gov.bnl.channelfinder.XmlProperty;
 import gov.bnl.channelfinder.XmlTag;
 import org.apache.http.HttpHost;
+import org.apache.lucene.search.join.ScoreMode;
 import org.elasticsearch.action.search.ClearScrollRequest;
 import org.elasticsearch.action.search.ClearScrollResponse;
 import org.elasticsearch.action.search.SearchRequest;
@@ -15,6 +16,8 @@ import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.unit.TimeValue;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.DisMaxQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.Scroll;
 import org.elasticsearch.search.SearchHit;
@@ -29,7 +32,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,15 +41,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
 import java.util.Set;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 import java.util.stream.Collectors;
 
-import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
+import static org.elasticsearch.index.query.QueryBuilders.*;
+import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
 
 /**
  * A management tools for producing reports and analysis on the channels in channefinder.
@@ -60,11 +61,26 @@ public class GenerateReport {
     private static ServiceLoader<PVNamesProcessor> processPVNamesServiceLoader = ServiceLoader.load(PVNamesProcessor.class);
 
     public static void createReport(String es_host, int es_port) throws IOException {
+        createReport(es_host, es_port, false);
+    }
+
+    public static void createReport(String es_host, int es_port, boolean excludeInactive) throws IOException {
         try {
 
             searchClient =  new RestHighLevelClient(RestClient.builder(new HttpHost(es_host, es_port, "http")));
 
-            QueryBuilder qb = matchAllQuery();
+            BoolQueryBuilder qb = boolQuery();
+            if (excludeInactive) {
+                DisMaxQueryBuilder propertyQuery = disMaxQuery();
+                propertyQuery
+                        .add(nestedQuery("properties",
+                                boolQuery().must(matchQuery("properties.name", "pvStatus"))
+                                        .must(wildcardQuery("properties.value", "Active")),
+                                ScoreMode.None));
+                qb.must(propertyQuery);
+            } else {
+                qb.must(matchAllQuery());
+            }
 
             final Scroll scroll = new Scroll(TimeValue.timeValueMinutes(30L));
 
@@ -74,7 +90,7 @@ public class GenerateReport {
 
             SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
             searchSourceBuilder.query(qb);
-            searchSourceBuilder.size(1000);
+            searchSourceBuilder.size(10000);
             searchRequest.source(searchSourceBuilder);
             SearchResponse searchResponse = searchClient.search(searchRequest, RequestOptions.DEFAULT);
 
@@ -91,7 +107,7 @@ public class GenerateReport {
             mapper.addMixIn(XmlTag.class, OnlyXmlTag.class);
 
             int count = 0;
-            while (searchHits != null && searchHits.length > 0 && count < 10000) {
+            while (searchHits != null && searchHits.length > 0) {
 
                 System.out.println("processing hits : " + count + " - " + (count + searchHits.length));
                 for (SearchHit hit : searchResponse.getHits().getHits()) {
@@ -208,8 +224,10 @@ public class GenerateReport {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            System.out.println("closing the search client.");
             searchClient.close();
         }
+        System.exit(0);
     }
 
     abstract class OnlyXmlProperty {
