@@ -79,4 +79,6 @@ Check that pv names don't exceed 60 characters including delimiters.
 
 Check that the pv names contain a device and the primary device is in the approved device_name list
  
+##### 2. System validator:
  
+Check that the pv names contain a primary system defined in the approved system_name list

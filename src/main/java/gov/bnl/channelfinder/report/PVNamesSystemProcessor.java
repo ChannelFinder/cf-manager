@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static gov.bnl.channelfinder.report.PVNameSplitter.PRIMARY;
@@ -45,8 +43,8 @@ public class PVNamesSystemProcessor implements PVNamesProcessor {
             int index = pvName.contains("{") ? pvName.indexOf("{") : pvName.length();
             Optional<String> primary = PVNameSplitter.process(pvName.substring(0, index)).get(PRIMARY);
             if (primary.isEmpty() || !systemNames.contains(primary.get())) {
+                primary.ifPresent(unkownSystems::add);
                 pvsWithUnknownSystem.add(pvName);
-                unkownSystems.add(primary.get());
             }
         });
 
@@ -61,7 +59,7 @@ public class PVNamesSystemProcessor implements PVNamesProcessor {
 
         sb.append("PV names with an unknown system specified : " + pvsWithUnknownSystem.size());
         sb.append(System.lineSeparator());
-        sb.append(pvsWithUnknownSystem.stream().collect(Collectors.joining(" ")));
+        //sb.append(pvsWithUnknownSystem.stream().collect(Collectors.joining(" ")));
         sb.append(System.lineSeparator());
 
         return sb.toString();
