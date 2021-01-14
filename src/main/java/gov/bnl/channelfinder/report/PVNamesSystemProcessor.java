@@ -59,7 +59,7 @@ public class PVNamesSystemProcessor implements PVNamesProcessor {
 
         sb.append("PV names with an unknown system specified : " + pvsWithUnknownSystem.size());
         sb.append(System.lineSeparator());
-        //sb.append(pvsWithUnknownSystem.stream().collect(Collectors.joining(" ")));
+        sb.append(pvsWithUnknownSystem.stream().collect(Collectors.joining(" ")));
         sb.append(System.lineSeparator());
 
         return sb.toString();

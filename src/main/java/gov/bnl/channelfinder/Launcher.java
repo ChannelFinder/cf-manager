@@ -60,6 +60,18 @@ public class Launcher {
                     iter.remove();
                     properties.put("es_port", iter.next());
                     iter.remove();
+                } else if (cmd.equals("-name_query")) {
+                    if (!iter.hasNext())
+                        throw new Exception("Missing -name_query name query");
+                    iter.remove();
+                    properties.put("name_query", iter.next());
+                    iter.remove();
+                } else if (cmd.equals("-time_query")) {
+                    if (!iter.hasNext())
+                        throw new Exception("Missing -time_query time query");
+                    iter.remove();
+                    properties.put("time_query", iter.next());
+                    iter.remove();
                 } else if (cmd.equals("-exclude_inactive")) {
                     properties.put("exclude_inactive", true);
                     iter.remove();
@@ -67,7 +79,9 @@ public class Launcher {
                     // generate report
                     GenerateReport.createReport(properties.getProperty("es_host"),
                             Integer.valueOf(properties.getProperty("es_port")),
-                            properties.containsKey("exclude_inactive"));
+                            properties.containsKey("exclude_inactive"),
+                            properties.getProperty("name_query", null),
+                            properties.getProperty("time_query", null));
                 } else {
                     throw new Exception("Unknown option " + cmd);
                 }
@@ -88,6 +102,8 @@ public class Launcher {
         System.out.println("-es_host  localhost       - elastic server host");
         System.out.println("-es_port  9200            - elastic server port");
         System.out.println("-exclude_inactive         - exclude inactive pvs");
+        System.out.println("-name_query               - include channels with names that match the given pattern");
+        System.out.println("-time_query               - include channels with update time matching time pattern");
         System.out.println("-help                     - print this text");
         System.out.println();
     }

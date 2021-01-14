@@ -29,7 +29,7 @@ public class PVNameSplitter {
 
     /**
      * TODO: this could seriously use a lot of cleaning up.
-     * TODO: a singe regex pattern
+     * TODO: a single regex pattern
      *
      * @param str
      */

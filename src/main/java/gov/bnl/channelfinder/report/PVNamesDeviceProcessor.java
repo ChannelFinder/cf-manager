@@ -61,7 +61,6 @@ public class PVNamesDeviceProcessor implements PVNamesProcessor {
             }
         });
 
-
         StringBuilder sb = new StringBuilder();
         sb.append("PV names with no device specified : " + missingDevices.size());
         sb.append(System.lineSeparator());
