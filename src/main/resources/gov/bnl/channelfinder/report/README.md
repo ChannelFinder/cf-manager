@@ -1,0 +1,1 @@
+This folder contains a list of device, system, signal names as described in the nsls2 pv naming convetion document.

@@ -82,6 +82,8 @@ public class Launcher {
                             properties.containsKey("exclude_inactive"),
                             properties.getProperty("name_query", null),
                             properties.getProperty("time_query", null));
+
+                    System.exit(0);
                 } else {
                     throw new Exception("Unknown option " + cmd);
                 }

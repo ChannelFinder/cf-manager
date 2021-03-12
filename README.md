@@ -36,37 +36,37 @@ The name is composed of system, device, and signal information.
 
 
 ```
-1		Characters in names to conform with allowed EPICS conventions				
+1		Characters in names to conform with allowed EPICS conventions
 		Allowed characters			a-z  A-Z 0-9 _ - : [ ] < > ; {}	
 						
-2		Reserved delimiters (not to be used in name elements)				
-		{		System{Device delimiter		
-		}		Device}Signal delimiter		
-		:		Precedes instance when used		
-		-		delimiter  system  Primary-Secondary-Tertiary, device-subdevice		
-		-		delimiter  signal instance-domain		
+2		Reserved delimiters (not to be used in name elements)
+		{		System{Device delimiter
+		}		Device}Signal delimiter
+		:		Precedes instance when used
+		-		delimiter  system  Primary-Secondary-Tertiary, device-subdevice
+		-		delimiter  signal instance-domain
 						
-3		Total name length				
-		60 characters including delimeters				
+3		Total name length
+		60 characters including delimeters
 						
-4		Name taxonomy				
-		Name consists of parts which consist of elements				
+4		Name taxonomy
+		Name consists of parts which consist of elements
 						
-5		Required name elements				
-	a.	As a guide, name should include only the parts and elements needed				
-		to provide a unique identifier that meets the need for a name.		
+5		Required name elements
+	a.	As a guide, name should include only the parts and elements needed
+		to provide a unique identifier that meets the need for a name.
 						
-	b.	If a name is needed the Device part is the required minimum name.				
+	b.	If a name is needed the Device part is the required minimum name.
 						
-	c.	Within parts the minimum requirement is:				
-		System part		Primary system name		
-		Device part		None (if system adequately describes the source of the signal)		
-		Signal part		Signal domain		
+	c.	Within parts the minimum requirement is:
+		System part		Primary system name
+		Device part		None (if system adequately describes the source of the signal)
+		Signal part		Signal domain
 						
-	d.	If the system part is used, the elements must be added in order as required 				
-		to ensure unique identification of the name.				
-		Primary-Secondary			Allowed	
-		Primary-Tertiary			Forbidden	
+	d.	If the system part is used, the elements must be added in order as required
+		to ensure unique identification of the name.
+		Primary-Secondary			Allowed
+		Primary-Tertiary			Forbidden
 ```
 
 #### The validators run by the generate-report process are the following:

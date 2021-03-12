@@ -71,6 +71,7 @@ public class GenerateReport {
 
     public static void createReport(String es_host, int es_port, boolean excludeInactive, String nameQueryPattern, String timeQueryPattern) throws IOException {
         try {
+            StringBuilder reportFileName = new StringBuilder("cf_report");
 
             searchClient =  new RestHighLevelClient(RestClient.builder(new HttpHost(es_host, es_port, "http")));
 
@@ -79,6 +80,7 @@ public class GenerateReport {
                 DisMaxQueryBuilder nameQuery = disMaxQuery();
                 nameQuery.add(wildcardQuery("name", nameQueryPattern.trim()));
                 qb.must(nameQuery);
+                reportFileName.append("-"+nameQueryPattern.replaceAll("[:\\*\\%]", "").trim());
             }
 
             if (timeQueryPattern != null && !timeQueryPattern.isBlank()) {
@@ -89,6 +91,10 @@ public class GenerateReport {
                                    .must(wildcardQuery("properties.value", timeQueryPattern.trim())),
                         ScoreMode.None));
                 qb.must(timeQuery);
+                reportFileName.append("-"+timeQueryPattern.replaceAll("[:\\*\\%]", "").trim());
+            } else {
+                LocalDate localDate = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());
+                reportFileName.append("-"+localDate.toString().trim());
             }
 
             if (excludeInactive) {
@@ -172,75 +178,76 @@ public class GenerateReport {
             ClearScrollResponse clearScrollResponse = searchClient.clearScroll(clearScrollRequest, RequestOptions.DEFAULT);
             boolean succeeded = clearScrollResponse.isSucceeded();
 
-            LocalDate localDate = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());
-            System.out.println(localDate.toString());
-            File file = Files.createFile(Paths.get("report"+ localDate.toString() +".txt")).toFile();
+            File file = Files.createFile(Paths.get(reportFileName.toString()+".txt")).toFile();
 
             try (FileOutputStream fileOutputStream = new FileOutputStream(file);
                  DataOutputStream outStream = new DataOutputStream(new BufferedOutputStream(fileOutputStream));)
             {
                 outStream.writeUTF("Unique Channels:" + pvs.size());
                 outStream.writeUTF(System.lineSeparator());
+                
+                if(!pvs.isEmpty())
+                {
 
-                outStream.writeUTF("Unique Hosts:" + propertyValues.get("hostName").keySet().size());
-                outStream.writeUTF(System.lineSeparator());
-                outStream.writeUTF(propertyValues.get("hostName").entrySet().stream().map(entry -> {
-                    return entry.getKey() + ":" + entry.getValue().size();
-                }).collect(Collectors.joining(",")));
-
-                if (propertyValues.containsKey("iocid")) {
-                    outStream.writeUTF("Unique iocid:" + propertyValues.get("iocid").size());
+                    outStream.writeUTF("Unique Hosts:" + propertyValues.get("hostName").keySet().size());
                     outStream.writeUTF(System.lineSeparator());
-                    outStream.writeUTF(propertyValues.get("iocid").entrySet().stream().map(entry -> {
+                    outStream.writeUTF(propertyValues.get("hostName").entrySet().stream().map(entry -> {
                         return entry.getKey() + ":" + entry.getValue().size();
                     }).collect(Collectors.joining(",")));
-                    outStream.writeUTF(System.lineSeparator());
-                }
 
-                if (propertyValues.containsKey("iocName")) {
-                    outStream.writeUTF("Unique iocName:" + propertyValues.get("iocName").size());
-                    outStream.writeUTF(System.lineSeparator());
-                    outStream.writeUTF(propertyValues.get("iocName").entrySet().stream().map(entry -> {
-                        return entry.getKey() + ":" + entry.getValue().size();
-                    }).collect(Collectors.joining(",")));
-                    outStream.writeUTF(System.lineSeparator());
-                }
-
-                // check
-                final Set<String> pvNames = Collections.unmodifiableSet(pvs);
-                final List<FutureTask<String>> tasks = new ArrayList<>();
-
-                for (PVNamesProcessor pvNamesProcessor : processPVNamesServiceLoader) {
-                    pvNamesProcessor.setPVNames(pvNames);
-                    FutureTask<String> task = new FutureTask<>(pvNamesProcessor);
-                    executorService.submit(task);
-                    tasks.add(task);
-                }
-
-                tasks.stream().forEach(t -> {
-                    try {
-                        // outStream.writeChars(t.get());
-                        String s = t.get();
-
-                        if (s == null) {
-                            outStream.writeByte(0);
-                        } else {
-                            outStream.writeByte(1);
-                            if (s.length() < 16*1024) {
-                                outStream.writeUTF(s);
-                            } else {
-                                // here comes the simple workaround
-                                byte[] b = s.getBytes("utf-8");
-                                outStream.writeInt(b.length);
-                                outStream.write(b);
-                            }
-                        }
-
-                    } catch (IOException | InterruptedException | ExecutionException e) {
-                        e.printStackTrace();
+                    if (propertyValues.containsKey("iocid")) {
+                        outStream.writeUTF("Unique iocid:" + propertyValues.get("iocid").size());
+                        outStream.writeUTF(System.lineSeparator());
+                        outStream.writeUTF(propertyValues.get("iocid").entrySet().stream().map(entry -> {
+                            return entry.getKey() + ":" + entry.getValue().size();
+                        }).collect(Collectors.joining(",")));
+                        outStream.writeUTF(System.lineSeparator());
                     }
-                });
 
+                    if (propertyValues.containsKey("iocName")) {
+                        outStream.writeUTF("Unique iocName:" + propertyValues.get("iocName").size());
+                        outStream.writeUTF(System.lineSeparator());
+                        outStream.writeUTF(propertyValues.get("iocName").entrySet().stream().map(entry -> {
+                            return entry.getKey() + ":" + entry.getValue().size();
+                        }).collect(Collectors.joining(",")));
+                        outStream.writeUTF(System.lineSeparator());
+                    }
+
+                    // check
+                    final Set<String> pvNames = Collections.unmodifiableSet(pvs);
+                    final List<FutureTask<String>> tasks = new ArrayList<>();
+
+                    for (PVNamesProcessor pvNamesProcessor : processPVNamesServiceLoader) {
+                        pvNamesProcessor.setPVNames(pvNames);
+                        FutureTask<String> task = new FutureTask<>(pvNamesProcessor);
+                        executorService.submit(task);
+                        tasks.add(task);
+                    }
+
+                    tasks.stream().forEach(t -> {
+                        try {
+                            // outStream.writeChars(t.get());
+                            String s = t.get();
+
+                            if (s == null) {
+                                outStream.writeByte(0);
+                            } else {
+                                outStream.writeByte(1);
+                                if (s.length() < 16*1024) {
+                                    outStream.writeUTF(s);
+                                } else {
+                                    // here comes the simple workaround
+                                    byte[] b = s.getBytes("utf-8");
+                                    outStream.writeInt(b.length);
+                                    outStream.write(b);
+                                }
+                            }
+
+                        } catch (IOException | InterruptedException | ExecutionException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                }
             }
 
 
@@ -250,7 +257,6 @@ public class GenerateReport {
             System.out.println("closing the search client.");
             searchClient.close();
         }
-        System.exit(0);
     }
 
     abstract class OnlyXmlProperty {
