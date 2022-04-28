@@ -1,6 +1,6 @@
 # cf-manager
 
-A project to consilidate some general channelfinder testing, debugging, and reporting operations
+A project to consolidate some general channelfinder testing, debugging, and reporting operations
 
 ### Building
 
@@ -82,3 +82,10 @@ Check that the pv names contain a device and the primary device is in the approv
 ##### 2. System validator:
  
 Check that the pv names contain a primary system defined in the approved system_name list
+
+
+### Scripts
+
+The `scripts` folder holds examples for directly accessing channel and IOC information in ElasitSearch.
+May include Linux shell scripts or python scripts.
+
